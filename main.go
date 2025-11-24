@@ -25,7 +25,6 @@ func main() {
 		oids = append(oids, newMap.OID())
 	}
 	master := GoSNMPServer.MasterAgent{
-		//Logger: GoSNMPServer.NewDefaultLogger(),
 		SecurityConfig: GoSNMPServer.SecurityConfig{
 			AuthoritativeEngineBoots: 1,
 			Users:                    []gosnmp.UsmSecurityParameters{},
