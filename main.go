@@ -1,57 +1,44 @@
 package main
 
 import (
-	"fmt"
-	"log"
+	"flag"
 
-	modbus "github.com/adibhanna/modbus-go"
 	"github.com/gosnmp/gosnmp"
 	"github.com/slayercat/GoSNMPServer"
 )
 
 func main() {
-	// Connect to MODBUS TCP server
-	client := modbus.NewTCPClient("10.231.0.52:502")
-	defer func(client *modbus.Client) {
-		err := client.Close()
-		if err != nil {
-			log.Fatal(err)
-		}
-	}(client)
-	err := client.Connect()
-	if err != nil {
-		log.Fatal(err)
-	}
-	register := modbus.Address(10031)
-	oids := []*GoSNMPServer.PDUValueControlItem{}
-	oids = append(oids, &GoSNMPServer.PDUValueControlItem{
-		OID:  fmt.Sprintf("1.3.6.1.2.1.2.2.1.1.%d", register),
-		Type: gosnmp.Integer,
-		OnGet: func() (value interface{}, err error) {
-			values, err := client.ReadHoldingRegisters(register, 1)
-			if err != nil {
-				panic(err)
-			}
-			return GoSNMPServer.Asn1IntegerWrap(int(values[0])), nil
-		},
-		Document: "IfIndex",
-	})
 
+	confFile := flag.String("config", "mbus2snmp.yaml", "Configuration file")
+	flag.Parse()
+
+	config := LoadConfig(*confFile)
+
+	var oids []*GoSNMPServer.PDUValueControlItem
+
+	for _, m := range config.Maps {
+		newMap := NewRegMap(m.MbusServerAddress,
+			m.MbusRegAddress,
+			m.MbusConversion,
+			m.MbusUnit,
+			m.SnmpBaseOID)
+		oids = append(oids, newMap.OID())
+	}
 	master := GoSNMPServer.MasterAgent{
-		Logger: GoSNMPServer.NewDefaultLogger(),
+		//Logger: GoSNMPServer.NewDefaultLogger(),
 		SecurityConfig: GoSNMPServer.SecurityConfig{
 			AuthoritativeEngineBoots: 1,
 			Users:                    []gosnmp.UsmSecurityParameters{},
 		},
 		SubAgents: []*GoSNMPServer.SubAgent{
 			{
-				CommunityIDs: []string{"public"},
+				CommunityIDs: []string{config.SnmpCommunity},
 				OIDs:         oids,
 			},
 		},
 	}
 	server := GoSNMPServer.NewSNMPServer(master)
-	err = server.ListenUDP("udp", "127.0.0.1:1161")
+	err := server.ListenUDP("udp", config.SnmpSrvAddr)
 	if err != nil {
 		panic(err)
 	}
