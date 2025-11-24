@@ -1,6 +1,6 @@
 module modbus2snmp
 
-go 1.25.1
+go 1.25
 
 require (
 	github.com/adibhanna/modbus-go v1.2.0
@@ -16,6 +16,7 @@ require (
 	github.com/lufia/plan9stats v0.0.0-20211012122336-39d0f177ccd0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/power-devops/perfstat v0.0.0-20210106213030-5aafc221ea8c // indirect
+	github.com/prometheus/procfs v0.0.8 // indirect
 	github.com/shirou/gopsutil/v3 v3.23.11 // indirect
 	github.com/shoenig/go-m1cpu v0.1.6 // indirect
 	github.com/sirupsen/logrus v1.4.2 // indirect
