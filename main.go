@@ -5,6 +5,7 @@ import (
 
 	"github.com/gosnmp/gosnmp"
 	"github.com/slayercat/GoSNMPServer"
+	"github.com/slayercat/GoSNMPServer/mibImps"
 )
 
 func main() {
@@ -24,6 +25,11 @@ func main() {
 			m.SnmpBaseOID)
 		oids = append(oids, newMap.OID())
 	}
+
+	for _, mib := range mibImps.All() {
+		oids = append(oids, mib)
+	}
+
 	master := GoSNMPServer.MasterAgent{
 		SecurityConfig: GoSNMPServer.SecurityConfig{
 			AuthoritativeEngineBoots: 1,
