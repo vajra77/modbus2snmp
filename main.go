@@ -29,6 +29,9 @@ func main() {
 		oids = append(oids, mib)
 	}
 
+	print(config)
+	print(oids)
+
 	master := GoSNMPServer.MasterAgent{
 		SecurityConfig: GoSNMPServer.SecurityConfig{
 			AuthoritativeEngineBoots: 1,
