@@ -27,8 +27,8 @@ func NewRegMap(srvAddr string, regAddr uint16, descr string, base string) *RegMa
 	}
 }
 
-func (reg *RegMap) Value() int {
-	return int(reg.value)
+func (reg *RegMap) Value() uint {
+	return uint(reg.value)
 }
 
 func (reg *RegMap) Read() error {
@@ -58,13 +58,13 @@ func (reg *RegMap) Read() error {
 func (reg *RegMap) OID() *GoSNMPServer.PDUValueControlItem {
 	return &GoSNMPServer.PDUValueControlItem{
 		OID:  fmt.Sprintf("%s.%d", reg.SnmpBaseOID, reg.MbusRegAddress),
-		Type: gosnmp.Integer,
+		Type: gosnmp.Gauge32,
 		OnGet: func() (value interface{}, err error) {
 			err = reg.Read()
 			if err != nil {
 				return 0, err
 			}
-			return GoSNMPServer.Asn1IntegerWrap(reg.Value()), nil
+			return GoSNMPServer.Asn1Gauge32Wrap(reg.Value()), nil
 		},
 		Document: "ifIndex",
 	}
