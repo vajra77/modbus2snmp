@@ -26,6 +26,15 @@ func main() {
 		Document: "ifIndex",
 	})
 
+	oids = append(oids, &GoSNMPServer.PDUValueControlItem{
+		OID:  "1.3.6.1.2.1.1.2",
+		Type: gosnmp.ObjectIdentifier,
+		OnGet: func() (value interface{}, err error) {
+			return GoSNMPServer.Asn1ObjectIdentifierWrap("iso.3.6.1.4.1.13742.6"), nil
+		},
+		Document: "ifIndex",
+	})
+
 	for _, mib := range mibImps.All() {
 		oids = append(oids, mib)
 	}
