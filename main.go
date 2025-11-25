@@ -17,17 +17,17 @@ func main() {
 
 	var oids []*GoSNMPServer.PDUValueControlItem
 
-	//oids = append(oids, &GoSNMPServer.PDUValueControlItem{
-	//	OID:  "1.3.6.1.2.1.1.1.0",
-	//	Type: gosnmp.OctetString,
-	//	OnGet: func() (value interface{}, err error) {
-	//		return GoSNMPServer.Asn1OctetStringWrap("Modbus/SNMP Gateway"), nil
-	//	},
-	//	Document: "ifIndex",
-	//})
+	oids = append(oids, &GoSNMPServer.PDUValueControlItem{
+		OID:  "1.3.6.1.2.1.1.1.0",
+		Type: gosnmp.OctetString,
+		OnGet: func() (value interface{}, err error) {
+			return GoSNMPServer.Asn1OctetStringWrap("Modbus/SNMP Gateway"), nil
+		},
+		Document: "ifIndex",
+	})
 
 	oids = append(oids, &GoSNMPServer.PDUValueControlItem{
-		OID:  "1.3.6.1.2.1.1.2",
+		OID:  "1.3.6.1.2.1.1.2.0",
 		Type: gosnmp.ObjectIdentifier,
 		OnGet: func() (value interface{}, err error) {
 			return GoSNMPServer.Asn1ObjectIdentifierWrap("iso.3.6.1.4.1.13742.6"), nil
