@@ -7,11 +7,10 @@ import (
 )
 
 type MapConf struct {
-	MbusServerAddress string `yaml:"mbus_server_address"`
-	MbusRegAddress    uint16 `yaml:"mbus_register_address"`
-	MbusConversion    uint16 `yaml:"mbus_register_conversion"`
-	MbusUnit          string `yaml:"mbus_unit"`
-	SnmpBaseOID       string `yaml:"snmp_base_oid"`
+	MbusServerAddress  string `yaml:"mbus_server_address"`
+	MbusRegAddress     uint16 `yaml:"mbus_register_address"`
+	MbusRegDescription string `yaml:"mbus_register_description"`
+	SnmpBaseOID        string `yaml:"snmp_base_oid"`
 }
 
 type Config struct {

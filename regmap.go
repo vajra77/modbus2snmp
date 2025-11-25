@@ -10,35 +10,25 @@ import (
 )
 
 type RegMap struct {
-	value          uint16
-	MbusSrvAddress string
-	MbusRegAddress modbus.Address
-	MbusConversion uint16
-	MbusUnit       string
-	SnmpBaseOID    string
+	value              uint16
+	MbusSrvAddress     string
+	MbusRegAddress     modbus.Address
+	MbusRegDescription string
+	SnmpBaseOID        string
 }
 
-func NewRegMap(srvAddr string, regAddr uint16, conv uint16, unit string, base string) *RegMap {
+func NewRegMap(srvAddr string, regAddr uint16, descr string, base string) *RegMap {
 	return &RegMap{
-		value:          0,
-		MbusSrvAddress: srvAddr,
-		MbusRegAddress: modbus.Address(regAddr),
-		MbusConversion: conv,
-		MbusUnit:       unit,
-		SnmpBaseOID:    base,
+		value:              0,
+		MbusSrvAddress:     srvAddr,
+		MbusRegAddress:     modbus.Address(regAddr),
+		MbusRegDescription: descr,
+		SnmpBaseOID:        base,
 	}
 }
 
 func (reg *RegMap) Value() uint16 {
 	return reg.value
-}
-
-func (reg *RegMap) Float() float32 {
-	return float32(reg.value / reg.MbusConversion)
-}
-
-func (reg *RegMap) String() string {
-	return fmt.Sprintf("%.2f %s", reg.Float(), reg.MbusUnit)
 }
 
 func (reg *RegMap) Read() error {
@@ -74,7 +64,7 @@ func (reg *RegMap) OID() *GoSNMPServer.PDUValueControlItem {
 			if err != nil {
 				return 0, err
 			}
-			return GoSNMPServer.Asn1OpaqueFloatWrap(reg.Float()), nil
+			return GoSNMPServer.Asn1Uinteger32Wrap(uint32(reg.Value())), nil
 		},
 		Document: "IfIndex",
 	}

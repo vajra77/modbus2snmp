@@ -20,8 +20,7 @@ func main() {
 	for _, m := range config.Maps {
 		newMap := NewRegMap(m.MbusServerAddress,
 			m.MbusRegAddress,
-			m.MbusConversion,
-			m.MbusUnit,
+			m.MbusRegDescription,
 			m.SnmpBaseOID)
 		oids = append(oids, newMap.OID())
 	}
