@@ -58,7 +58,7 @@ func (reg *RegMap) Read() error {
 func (reg *RegMap) OID() *GoSNMPServer.PDUValueControlItem {
 	return &GoSNMPServer.PDUValueControlItem{
 		OID:  fmt.Sprintf("%s.%d", reg.SnmpBaseOID, reg.MbusRegAddress),
-		Type: gosnmp.OpaqueFloat,
+		Type: gosnmp.Integer,
 		OnGet: func() (value interface{}, err error) {
 			err = reg.Read()
 			if err != nil {
