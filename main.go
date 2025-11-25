@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 
 	"github.com/gosnmp/gosnmp"
 	"github.com/slayercat/GoSNMPServer"
@@ -29,8 +30,8 @@ func main() {
 		oids = append(oids, mib)
 	}
 
-	print(config)
-	print(oids)
+	fmt.Print(config)
+	fmt.Print(oids)
 
 	master := GoSNMPServer.MasterAgent{
 		SecurityConfig: GoSNMPServer.SecurityConfig{
