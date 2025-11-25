@@ -66,6 +66,6 @@ func (reg *RegMap) OID() *GoSNMPServer.PDUValueControlItem {
 			}
 			return GoSNMPServer.Asn1IntegerWrap(reg.Value()), nil
 		},
-		Document: "IfIndex",
+		Document: "ifIndex",
 	}
 }
