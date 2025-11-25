@@ -27,12 +27,8 @@ func NewRegMap(srvAddr string, regAddr uint16, descr string, base string) *RegMa
 	}
 }
 
-func (reg *RegMap) Value() uint16 {
-	return reg.value
-}
-
-func (reg *RegMap) ValueInt32() uint32 {
-	return uint32(reg.value)
+func (reg *RegMap) Value() int {
+	return int(reg.value)
 }
 
 func (reg *RegMap) Read() error {
@@ -68,7 +64,7 @@ func (reg *RegMap) OID() *GoSNMPServer.PDUValueControlItem {
 			if err != nil {
 				return 0, err
 			}
-			return GoSNMPServer.Asn1Uinteger32Wrap(reg.ValueInt32()), nil
+			return GoSNMPServer.Asn1IntegerWrap(reg.Value()), nil
 		},
 		Document: "IfIndex",
 	}
