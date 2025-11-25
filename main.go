@@ -30,7 +30,7 @@ func main() {
 		OID:  "1.3.6.1.2.1.1.2.0",
 		Type: gosnmp.ObjectIdentifier,
 		OnGet: func() (value interface{}, err error) {
-			return GoSNMPServer.Asn1ObjectIdentifierWrap("iso.3.6.1.4.1.8072.3.2.10"), nil
+			return GoSNMPServer.Asn1ObjectIdentifierWrap("1.3.6.1.4.1.8072.3.2.10"), nil
 		},
 		Document: "ifIndex",
 	})
