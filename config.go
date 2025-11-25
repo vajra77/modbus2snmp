@@ -16,6 +16,8 @@ type MapConf struct {
 type Config struct {
 	SnmpSrvAddr   string    `yaml:"snmp_server_address"`
 	SnmpCommunity string    `yaml:"snmp_community"`
+	SnmpObjectID  string    `yaml:"snmp_object_id"`
+	SnmpSysDescr  string    `yaml:"snmp_sys_description"`
 	Maps          []MapConf `yaml:"maps"`
 }
 

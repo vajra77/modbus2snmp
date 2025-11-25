@@ -21,7 +21,7 @@ func main() {
 		OID:  "1.3.6.1.2.1.1.1.0",
 		Type: gosnmp.OctetString,
 		OnGet: func() (value interface{}, err error) {
-			return GoSNMPServer.Asn1OctetStringWrap("Modbus/SNMP Gateway"), nil
+			return GoSNMPServer.Asn1OctetStringWrap(config.SnmpSysDescr), nil
 		},
 		Document: "ifIndex",
 	})
@@ -30,7 +30,7 @@ func main() {
 		OID:  "1.3.6.1.2.1.1.2.0",
 		Type: gosnmp.ObjectIdentifier,
 		OnGet: func() (value interface{}, err error) {
-			return GoSNMPServer.Asn1ObjectIdentifierWrap("1.3.6.1.4.1.8072.3.2.10"), nil
+			return GoSNMPServer.Asn1ObjectIdentifierWrap(config.SnmpObjectID), nil
 		},
 		Document: "ifIndex",
 	})
