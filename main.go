@@ -33,7 +33,15 @@ func main() {
 		Logger: GoSNMPServer.NewDefaultLogger(),
 		SecurityConfig: GoSNMPServer.SecurityConfig{
 			AuthoritativeEngineBoots: 1,
-			Users:                    []gosnmp.UsmSecurityParameters{},
+			Users: []gosnmp.UsmSecurityParameters{
+				{
+					UserName:                 "modbus2snmp",
+					AuthenticationProtocol:   gosnmp.MD5,
+					PrivacyProtocol:          gosnmp.DES,
+					AuthenticationPassphrase: "modbus2snmp",
+					PrivacyPassphrase:        "modbus2snmp",
+				},
+			},
 		},
 		SubAgents: []*GoSNMPServer.SubAgent{
 			{
