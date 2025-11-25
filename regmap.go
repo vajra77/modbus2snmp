@@ -31,6 +31,10 @@ func (reg *RegMap) Value() uint16 {
 	return reg.value
 }
 
+func (reg *RegMap) ValueInt32() uint32 {
+	return uint32(reg.value)
+}
+
 func (reg *RegMap) Read() error {
 	client := modbus.NewTCPClient(reg.MbusSrvAddress)
 	defer func(client *modbus.Client) {
@@ -64,7 +68,7 @@ func (reg *RegMap) OID() *GoSNMPServer.PDUValueControlItem {
 			if err != nil {
 				return 0, err
 			}
-			return GoSNMPServer.Asn1Uinteger32Wrap(uint32(reg.Value())), nil
+			return GoSNMPServer.Asn1Uinteger32Wrap(reg.ValueInt32()), nil
 		},
 		Document: "IfIndex",
 	}
