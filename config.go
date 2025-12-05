@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	"gopkg.in/yaml.v3"
@@ -21,10 +22,11 @@ type Config struct {
 	Maps          []MapConf `yaml:"maps"`
 }
 
-func LoadConfig(configFile string) Config {
+func NewConfig(configFile string) (*Config, error) {
+
 	f, err := os.Open(configFile)
 	if err != nil {
-		panic(err)
+		return nil, fmt.Errorf("error while opening file: %w", err)
 	}
 
 	defer func(f *os.File) {
@@ -35,10 +37,11 @@ func LoadConfig(configFile string) Config {
 	}(f)
 
 	var conf Config
+
 	decoder := yaml.NewDecoder(f)
-	err = decoder.Decode(&conf)
-	if err != nil {
-		panic(err)
+	if err := decoder.Decode(&conf); err != nil {
+		return nil, fmt.Errorf("error while reading config: $w", err)
 	}
-	return conf
+
+	return &conf, nil
 }

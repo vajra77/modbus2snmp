@@ -80,3 +80,10 @@ func (reg *RegMap) OID() *GoSNMPServer.PDUValueControlItem {
 		Document: reg.ModbusRegDescription,
 	}
 }
+
+func (reg *RegMap) Close() error {
+	if reg.client != nil {
+		return reg.client.Close()
+	}
+	return nil
+}
