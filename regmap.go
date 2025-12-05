@@ -10,20 +10,20 @@ import (
 )
 
 type RegMap struct {
-	value              uint16
-	MbusSrvAddress     string
-	MbusRegAddress     modbus.Address
-	MbusRegDescription string
-	SnmpBaseOID        string
+	value                uint16
+	ModbusSrvAddress     string
+	ModbusRegAddress     modbus.Address
+	ModbusRegDescription string
+	SNMPBaseOID          string
 }
 
 func NewRegMap(srvAddr string, regAddr uint16, descr string, base string) *RegMap {
 	return &RegMap{
-		value:              0,
-		MbusSrvAddress:     srvAddr,
-		MbusRegAddress:     modbus.Address(regAddr),
-		MbusRegDescription: descr,
-		SnmpBaseOID:        base,
+		value:                0,
+		ModbusSrvAddress:     srvAddr,
+		ModbusRegAddress:     modbus.Address(regAddr),
+		ModbusRegDescription: descr,
+		SNMPBaseOID:          base,
 	}
 }
 
@@ -32,20 +32,20 @@ func (reg *RegMap) Value() uint {
 }
 
 func (reg *RegMap) Read() error {
-	client := modbus.NewTCPClient(reg.MbusSrvAddress)
-	defer func(client *modbus.Client) {
+	client := modbus.NewTCPClient(reg.ModbusSrvAddress)
+	defer func() {
 		err := client.Close()
 		if err != nil {
-			log.Fatal(err)
+			log.Printf("failed to close modbus client: %v", err)
 		}
-	}(client)
+	}()
 
 	err := client.Connect()
 	if err != nil {
 		return err
 	}
 
-	values, err := client.ReadHoldingRegisters(reg.MbusRegAddress, 1)
+	values, err := client.ReadHoldingRegisters(reg.ModbusRegAddress, 1)
 	if err != nil {
 		reg.value = 0
 		return err
@@ -57,7 +57,7 @@ func (reg *RegMap) Read() error {
 
 func (reg *RegMap) OID() *GoSNMPServer.PDUValueControlItem {
 	return &GoSNMPServer.PDUValueControlItem{
-		OID:  fmt.Sprintf("%s.%d", reg.SnmpBaseOID, reg.MbusRegAddress),
+		OID:  fmt.Sprintf("%s.%d", reg.SNMPBaseOID, reg.ModbusRegAddress),
 		Type: gosnmp.Gauge32,
 		OnGet: func() (value interface{}, err error) {
 			err = reg.Read()

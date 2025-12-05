@@ -7,17 +7,17 @@ import (
 )
 
 type MapConf struct {
-	MbusServerAddress  string `yaml:"mbus_server_address"`
-	MbusRegAddress     uint16 `yaml:"mbus_register_address"`
-	MbusRegDescription string `yaml:"mbus_register_description"`
-	SnmpBaseOID        string `yaml:"snmp_base_oid"`
+	ModbusServerAddress  string `yaml:"mbus_server_address"`
+	ModbusRegAddress     uint16 `yaml:"mbus_register_address"`
+	ModbusRegDescription string `yaml:"mbus_register_description"`
+	SNMPBaseOID          string `yaml:"snmp_base_oid"`
 }
 
 type Config struct {
-	SnmpSrvAddr   string    `yaml:"snmp_server_address"`
-	SnmpCommunity string    `yaml:"snmp_community"`
-	SnmpObjectID  string    `yaml:"snmp_object_id"`
-	SnmpSysDescr  string    `yaml:"snmp_sys_description"`
+	SNMPSrvAddr   string    `yaml:"snmp_server_address"`
+	SNMPCommunity string    `yaml:"snmp_community"`
+	SNMPObjectID  string    `yaml:"snmp_object_id"`
+	SNMPSysDescr  string    `yaml:"snmp_sys_description"`
 	Maps          []MapConf `yaml:"maps"`
 }
 
